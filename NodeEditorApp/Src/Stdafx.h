@@ -1,0 +1,25 @@
+#pragma once
+
+#include <QApplication>
+#include <QWidget>
+#include <QMainWindow>
+#include <QDebug>
+#include <QResizeEvent>
+#include <QCloseEvent>
+#include <QMessageBox>
+#include <QMoveEvent>
+#include <QComboBox>
+#include <qdockwidget.h>
+#include <QListWidget>
+#include <QGraphicsScene>
+#include <QGraphicsView>
+#include <assert.h>
+#include <qdatetime.h>
+#include <QGraphicsItem>
+#include <QGraphicsRectItem>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <qlineedit.h>
+#include <QGraphicsProxyWidget>
+#include <QMessageBox>
+#include <list>
