@@ -6,21 +6,24 @@
 
 DmGraphicsNodeItem* NodeFactory::Create(NodeType nodeType)
 {
-	DmGraphicsNodeItem* nodeItem = nullptr;
+	auto nodeMeta = NodeFactory::GetInstance().GetNodesMeta();
 
-	switch (nodeType)
+	auto res = std::find_if(nodeMeta.begin(), nodeMeta.end(), 
+		[nodeType](const NodeMeta* nodeMeta) 
+		{
+			return nodeMeta->type == nodeType;
+		}
+	);
+
+	DmGraphicsNodeItem* item = nullptr;
+
+	if (*res != nullptr) 
 	{
-		case (NodeType::NodeType_ValueNode):
-		{
-			nodeItem = new DmGraphicsValueNodeItem();
-		}
-		break;
+		item = (*res)->defaultConstructor();
 
-		default:
-		{
-			Q_ASSERT_X(false, __FUNCTION__, "Unknown node type");
-		}
+		auto nodeMeta = item->GetNodeMetaDynamic();
+		item->setToolTip(nodeMeta->description);
 	}
 
-	return nodeItem;
+	return item;
 }

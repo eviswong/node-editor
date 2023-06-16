@@ -11,6 +11,23 @@ ListWidget::ListWidget(QWidget* parent)
 	Super::setSelectionMode(QAbstractItemView::SingleSelection);
 	Super::setDragEnabled(true);
 
+	auto nodesMeta = NodeFactory::GetInstance().GetNodesMeta();
+
+	std::for_each(nodesMeta.begin(), nodesMeta.end(), 
+		[this](const NodeMeta* nodeMeta) 
+		{
+			QListWidgetItem* item = new QListWidgetItem();
+
+			item->setIcon(QIcon(nodeMeta->iconPath));
+			item->setText(nodeMeta->name);
+			item->setToolTip(nodeMeta->description);
+			item->setData(Qt::UserRole + 1, nodeMeta->type);
+
+			Super::addItem(item);
+		}
+	);
+
+#if 0
 	QListWidgetItem* item = new QListWidgetItem();
 	item->setIcon(QIcon(":/Resource/Icon/value.svg"));
 	item->setText("Value Node");
@@ -18,13 +35,8 @@ ListWidget::ListWidget(QWidget* parent)
 
 	item->setData(Qt::UserRole + 1, NodeType_ValueNode);
 
+
 	Super::addItem(item);
-	
-#if 0
-	Super::addItem(new QListWidgetItem("Add"));
-	Super::addItem(new QListWidgetItem("Sub"));
-	Super::addItem(new QListWidgetItem("Mul"));
-	Super::addItem(new QListWidgetItem("Div"));
 #endif
 }
 

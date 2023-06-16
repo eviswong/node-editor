@@ -3,17 +3,6 @@
 
 class DmGraphicsNodeItem;
 
-struct NodeDescriptor
-{
-	using RawPtr = NodeDescriptor*;
-	using RefPtr = std::shared_ptr<NodeDescriptor>;
-
-	NodeType         type;
-	std::string_view name;
-	std::string_view description;
-	std::string_view icon;
-};
-
 class NodeFactory 
 {
 public:
@@ -24,25 +13,30 @@ public:
 	}
 
 	DmGraphicsNodeItem* Create(NodeType nodeType);
-};
 
-// 知道现在程序可以创建什么样的节点（有什么样的类）
-class NodeManager
-{
-public:
-	static NodeManager& GetInstance()
+	void RegisterNodeInfo(NodeMeta* nodeInfo)
 	{
-		static NodeManager nodeManager;
-		return nodeManager;
+		// Check exists
+
+		m_nodeMeta.push_back(nodeInfo);
 	}
 
-	void RegisterNode(NodeDescriptor::RefPtr nodeDescriptorPtr)
+	const std::list<NodeMeta*>& GetNodesMeta() const 
 	{
-		assert(nodeDescriptorPtr != nullptr);
-
-		m_nodeTypes[nodeDescriptorPtr->type] = nodeDescriptorPtr;
+		return m_nodeMeta;
 	}
 
 private:
-	std::unordered_map<NodeType, std::shared_ptr<NodeDescriptor>> m_nodeTypes;
+	std::list<NodeMeta*> m_nodeMeta;
+};
+
+template <typename NodeClassT>
+struct NodeRegistry
+{
+	NodeRegistry() 
+	{
+		NodeMeta* nodeMeta = NodeClassT::GetNodeMetaStatic();
+
+		NodeFactory::GetInstance().RegisterNodeInfo(nodeMeta);
+	}
 };

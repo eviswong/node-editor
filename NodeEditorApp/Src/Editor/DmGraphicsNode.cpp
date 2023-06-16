@@ -84,6 +84,9 @@ DmGraphicsNodeItem::DmGraphicsNodeItem(QGraphicsItem* parent)
 	Super::setToolTip("This is a test graphics item");
 
 	m_nodePainter.reset(new NodePainter(this));
+
+
+
 }
 
 void DmGraphicsNodeItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
