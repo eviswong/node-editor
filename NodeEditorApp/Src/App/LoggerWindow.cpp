@@ -16,15 +16,51 @@ LoggerWindow::LoggerWindow(QWidget *parent)
 
 void LoggerWindow::MakeConnections()
 {
+
 	connect(ui.clearBtn, &QPushButton::clicked, [this]() {
+		std::list<Message>& msgContainer = GetMessageContainer();
 		ui.logOutputEdit->clear();
-		m_logEntry.clear();
+		msgContainer.clear();
 	});
 
 	connect(ui.logLevelCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(OnLogLevelFilterChanged(int)));
 }
 
-void LoggerWindow::putMessage(Verbosity verbosity, const QString& message)
+void LoggerWindow::Information(const QString& message) {
+	WriteToBuffer(message, Verbosity_Information);
+	PutMessage(Verbosity_Information, message);
+}
+
+void LoggerWindow::Warning(const QString& message) {
+	WriteToBuffer(message, Verbosity_Warning);
+	PutMessage(Verbosity_Warning, message);
+}
+
+void LoggerWindow::Critical(const QString& message) {
+	WriteToBuffer(message, Verbosity_Critical);
+	PutMessage(Verbosity_Critical, message);
+}
+
+void LoggerWindow::WriteToBuffer(const QString& message, Verbosity verbosity)
+{
+	std::list<Message>& msgContainer = GetMessageContainer();
+
+	msgContainer.emplace_back(verbosity, message);
+}
+
+void LoggerWindow::FlushBuffer()
+{
+	std::list<Message>& msgContainer = GetMessageContainer();
+
+	std::for_each(msgContainer.begin(), msgContainer.end(),
+		[this](Message& msg)
+		{
+			PutMessage(msg.verbosity, msg.content);
+		}
+	);
+}
+
+void LoggerWindow::PutMessage(Verbosity verbosity, const QString& message)
 {
 	Qt::GlobalColor textColor = Qt::black;
 	QString verbosityStr;
@@ -55,7 +91,6 @@ void LoggerWindow::putMessage(Verbosity verbosity, const QString& message)
 		default:
 		{
 			ASSERT(false && "Unknown log verbosity");
-
 		}
 		break;
 	}
@@ -76,22 +111,24 @@ void LoggerWindow::OnLogLevelFilterChanged(int index)
 {
 	ui.logOutputEdit->clear();
 
+	std::list<Message>& msgContainer = GetMessageContainer();
+
 	if (index != 0)
 	{
 		Verbosity verbosity = (Verbosity)index;
 
-		for (auto iter = m_logEntry.begin(); iter != m_logEntry.end(); iter++) {
-			if (iter->verbosity == verbosity)
+		std::for_each(msgContainer.begin(), msgContainer.end(), 
+			[verbosity, this](Message& msg)
 			{
-				putMessage(iter->verbosity, iter->message);
+				if (msg.verbosity == verbosity)
+				{
+					PutMessage(msg.verbosity, msg.content);
+				}
 			}
-		}
+		);
 	}
 	else
 	{
-		for (auto iter = m_logEntry.begin(); iter != m_logEntry.end(); iter++)
-		{
-			putMessage(iter->verbosity, iter->message);
-		}
+		FlushBuffer();
 	}
 }

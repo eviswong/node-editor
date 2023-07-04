@@ -2,23 +2,7 @@
 
 #include <QWidget>
 #include "ui_LoggerWindow.h"
-
-enum Verbosity {
-	Verbosity_Information = 1,
-	Verbosity_Warning,
-	Verbosity_Critical
-}; 
-
-struct LogEntry {
-	Verbosity verbosity;
-	QString   message;
-
-	LogEntry(Verbosity inVerbosity, const QString& inMessage)
-	{
-		verbosity = inVerbosity;
-		message = inMessage;
-	}
-}; 
+#include "App/Logger.h"
 
 class LoggerWindow : public QWidget
 {
@@ -28,25 +12,20 @@ public:
 	LoggerWindow(QWidget *parent = nullptr);
 	~LoggerWindow() {};
 
-	void Information(const QString& message) {
-		m_logEntry.emplace_back(Verbosity_Information, message);
-		putMessage(Verbosity_Information, message);
-	}
-
-	void Warning(const QString& message) {
-		m_logEntry.emplace_back(Verbosity_Warning, message);
-		putMessage(Verbosity_Warning, message);
-	}
-
-	void Critical(const QString& message) {
-		m_logEntry.emplace_back(Verbosity_Critical, message);
-		putMessage(Verbosity_Critical, message);
-	}
+	void Information(const QString& message);
+	void Warning(const QString& message);
+	void Critical(const QString& message);
+	void WriteToBuffer(const QString& message, Verbosity verbosity);
+	void FlushBuffer();
 
 private:
-	void putMessage(Verbosity verbosity, const QString& message);
+	static std::list<Message>& GetMessageContainer() 
+	{
+		static std::list<Message> s_messageContainer;
+		return s_messageContainer;
+	}
 
-private:
+	void PutMessage(Verbosity verbosity, const QString& message);
 	void MakeConnections();
 
 private slots:
@@ -54,6 +33,4 @@ private slots:
 
 private:
 	Ui::LoggerWindowClass ui;
-
-	std::list<LogEntry> m_logEntry;
 };

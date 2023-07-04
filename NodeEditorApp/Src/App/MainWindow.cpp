@@ -29,7 +29,13 @@ MainWindow::MainWindow(QWidget *parent)
 void MainWindow::SetupUi()
 {
 	/* Windows */
-	ui.loggerWidget->setWidget(new LoggerWindow(this));
+	/* Message window */
+	LoggerWindow* loggerWindow = new LoggerWindow(this);
+	MessageWritter::InstallMessageWriter(loggerWindow);
+	ui.loggerWidget->setWidget(loggerWindow);
+	loggerWindow->FlushBuffer();
+
+	/* Library window */
 	ui.libraryWidget->setWidget(new ListWidget(this));
 
 	/* Docking window visiability */

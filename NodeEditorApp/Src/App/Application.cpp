@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "Base/Environment.h"
 
+// 返回值设计
 bool Application::LoadStyleSheet()
 {
 	const QString styleSheetPath = Environment::GetInstance().GetStyleSheetPath();

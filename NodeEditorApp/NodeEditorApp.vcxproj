@@ -32,7 +32,7 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>5.9.9</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtModules>core;gui;widgets;</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
@@ -57,7 +57,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <OutDir>$(SolutionDir)$(ProjectName)\Bin\$(Platform)-$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)$(ProjectName)\Int\$(Platform)-$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);Src/;</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);Src/</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutDir>$(SolutionDir)$(ProjectName)\Bin\$(Platform)-$(Configuration)\</OutDir>
@@ -104,6 +104,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Src\App\Application.cpp" />
+    <ClCompile Include="Src\App\Logger.cpp" />
     <ClCompile Include="Src\Editor\DmGraphicsScene.cpp" />
     <ClCompile Include="Src\Editor\DmGraphicsSocketItem.cpp" />
     <ClCompile Include="Src\Editor\DmGraphicsView.cpp" />
@@ -131,6 +132,7 @@
     <QtMoc Include="Src\Editor\DmGraphicsScene.h" />
     <QtMoc Include="Src\Editor\DmGraphicsView.h" />
     <ClInclude Include="Src\App\Application.h" />
+    <ClInclude Include="Src\App\Logger.h" />
     <ClInclude Include="Src\Editor\DmGraphicsNode.h" />
     <ClInclude Include="Src\Editor\DmGraphicsSocketItem.h" />
     <ClInclude Include="Src\Editor\NodeFactory.h" />
