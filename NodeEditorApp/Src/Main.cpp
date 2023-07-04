@@ -3,17 +3,22 @@
 #include "Base/Environment.h"
 #include "Base/Config.h"
 #include "App/LoggerWindow.h"
+#include "App/Application.h"
+
 
 
 int main(int argc, char* argv[])
 {
-	QApplication app(argc, argv);
+	Application app(argc, argv);
 
 	/* 加载应用程序环境 */
 	Environment::GetInstance().Initialize();
 
 	/* 加载应用程序配置 */
 	Config::GetInstance().LoadConfigurations();
+
+	/* QSS */
+	app.LoadStyleSheet();
 
 	/* 创建主窗口 */
 	MainWindow mainWindow;

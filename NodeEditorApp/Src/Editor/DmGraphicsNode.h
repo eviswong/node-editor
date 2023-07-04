@@ -11,17 +11,16 @@ enum NodeType {
 	NodeType_IntegerNode,   // 0x1000 + 2
 };
 
-typedef DmGraphicsNodeItem* (*NodeDefaultConstructor)();
-
-
 struct NodeMeta
 {
+	typedef DmGraphicsNodeItem* (*NodeDefaultConstructor)();
+
 	const char* className;
 	NodeDefaultConstructor defaultConstructor;
 
 	const char* name;
 	const char* description;
-	const char* iconPath;
+	const char* iconPath; 
 	NodeType    type;
 };
 
@@ -42,7 +41,6 @@ private:
 	QBrush brushTitle;
 	QBrush brushBackground;
 };
-
 
 class DmGraphicsNodeItem : public QGraphicsItem
 {
@@ -90,7 +88,7 @@ namespace{\
     NodeRegistry<className> CONCAT(register, __COUNTER__);\
 }
 
-#define DECL_NODE_INFO(nodeClassName)\
+#define __decl_node_info(nodeClassName)\
 public:\
     static NodeMeta* GetNodeMetaStatic();          \
     virtual NodeMeta* GetNodeMetaDynamic() override\
@@ -98,7 +96,7 @@ public:\
 	static DmGraphicsNodeItem* DefaultConstructor();\
 private:
 
-#define IMPL_NODE_INFO_BEGIN(nodeClassName)\
+#define __impl_node_info_begin(nodeClassName)\
 REGISTER_NODE_INFO(nodeClassName)\
 DmGraphicsNodeItem* nodeClassName::DefaultConstructor() \
 {\
@@ -116,8 +114,7 @@ NodeMeta* nodeClassName::GetNodeMetaStatic()\
 #define __icon(path) path
 #define __type(t) t
 
-#define IMPL_NODE_INFO_END()\
+#define __impl_node_info_end()\
 	};\
 	return &nodeMeta;\
 }
-

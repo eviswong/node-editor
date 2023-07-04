@@ -3,12 +3,12 @@
 #include "DmGraphicsSocketItem.h"
 #include "NodeFactory.h"
 
-IMPL_NODE_INFO_BEGIN(DmGraphicsValueNodeItem)
+__impl_node_info_begin(DmGraphicsValueNodeItem)
 	__name("Value"),
 	__desc("Use to display dynamic creation of an object"),
 	__icon(":/Resource/Icon/value.svg"),
 	__type(NodeType_ValueNode)
-IMPL_NODE_INFO_END()
+__impl_node_info_end()
 
 DmGraphicsValueNodeItem::DmGraphicsValueNodeItem(QGraphicsItem* parent)
 	: DmGraphicsNodeItem(parent)
@@ -49,23 +49,23 @@ void DmGraphicsValueNodeItem::AdjustSocketPosition()
 	m_socketItem->setPos(socketPos);
 }
 
-#if 1 // 以下为测试代码，注释这段代码，观察效果
+#if 0 // 以下为测试代码，注释这段代码，观察效果
 
 class DmGraphicsIntegerValueNodeItem : public DmGraphicsValueNodeItem
 {
 	using Self = DmGraphicsIntegerValueNodeItem;
 
-	DECL_NODE_INFO(DmGraphicsIntegerValueNodeItem);
+	__decl_node_info(DmGraphicsIntegerValueNodeItem);
 
 public:
-	// virtual int type() const override { return NodeType_IntegerNode; }
+	 virtual int type() const override { return NodeType_IntegerNode; }
 };
 
-IMPL_NODE_INFO_BEGIN(DmGraphicsIntegerValueNodeItem)
+__impl_node_info_begin(DmGraphicsIntegerValueNodeItem)
 	__name("Integer"),
 	__desc("Test DSL"),
 	__icon(":/Resource/Icon/value.svg"),
 	__type(NodeType_IntegerNode)
-IMPL_NODE_INFO_END()
+__impl_node_info_end()
 
 #endif

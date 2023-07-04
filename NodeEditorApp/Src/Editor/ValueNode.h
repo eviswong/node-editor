@@ -9,7 +9,7 @@ class DmGraphicsValueNodeItem : public DmGraphicsNodeItem
 {
 	using Self = DmGraphicsValueNodeItem;
 
-	DECL_NODE_INFO(DmGraphicsValueNodeItem);
+	__decl_node_info(DmGraphicsValueNodeItem);
 
 public:
 	explicit DmGraphicsValueNodeItem(QGraphicsItem* parent = Q_NULLPTR);

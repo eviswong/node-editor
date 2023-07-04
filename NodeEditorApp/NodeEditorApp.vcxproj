@@ -103,6 +103,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\App\Application.cpp" />
     <ClCompile Include="Src\Editor\DmGraphicsScene.cpp" />
     <ClCompile Include="Src\Editor\DmGraphicsSocketItem.cpp" />
     <ClCompile Include="Src\Editor\DmGraphicsView.cpp" />
@@ -129,6 +130,7 @@
     <QtMoc Include="Src\App\ListWidget.h" />
     <QtMoc Include="Src\Editor\DmGraphicsScene.h" />
     <QtMoc Include="Src\Editor\DmGraphicsView.h" />
+    <ClInclude Include="Src\App\Application.h" />
     <ClInclude Include="Src\Editor\DmGraphicsNode.h" />
     <ClInclude Include="Src\Editor\DmGraphicsSocketItem.h" />
     <ClInclude Include="Src\Editor\NodeFactory.h" />
@@ -146,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Bin\x64-Debug\Config\Config.ini" />
+    <None Include="Bin\x64-Debug\Qss\Stylesheet.css" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="Resource.qrc" />
