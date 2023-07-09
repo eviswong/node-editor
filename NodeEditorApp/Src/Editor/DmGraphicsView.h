@@ -3,17 +3,19 @@
 enum ViewportOperationMode
 {
 	Mode_Invalid,
-	Mode_Pan
+	Mode_Pan,
+	Mode_Drag
 };
 
 class QGraphicsScene;
 class QKeyEvent;
 class QWidget;
+class DmGraphicsSocketItem;
 
 class DmGraphicsView : public QGraphicsView
 {
 	Q_OBJECT
-		typedef DmGraphicsView Self;
+	typedef DmGraphicsView Self;
 	typedef QGraphicsView Super;
 public:
 	DmGraphicsView(QGraphicsScene* scene, QWidget* parent = Q_NULLPTR);
@@ -30,7 +32,9 @@ private:
 	void OnZoomViewport(QWheelEvent* event);
 	void OnPanViewport(QMouseEvent* event);
 	void OnDeleteItem(QKeyEvent* event);
-	
+
+	DmGraphicsSocketItem* GetSocketItemUnderCursor(const QPoint& scenePos);
+
 
 	ViewportOperationMode m_viewportOperationMode{ Mode_Invalid };
 
