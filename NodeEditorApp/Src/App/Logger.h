@@ -23,6 +23,10 @@ class LoggerWindow;
 class MessageWritter
 {
 public:
+	/*!
+	 * @brief 注册消息显示控件 
+	 * @param loggerWindow 
+ 	 */
 	static void InstallMessageWriter(LoggerWindow* loggerWindow);
 
 	static void Information(const QString& message);
