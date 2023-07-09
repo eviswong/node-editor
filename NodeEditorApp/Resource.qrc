@@ -1,5 +1,10 @@
 <RCC>
     <qresource prefix="/">
         <file>Resource/Icon/value.svg</file>
+        <file>Resource/Icon/add_dark.svg</file>
+        <file>Resource/Icon/open_dark.svg</file>
+        <file>Resource/Icon/pin_dark.svg</file>
+        <file>Resource/Icon/save_as_dark.svg</file>
+        <file>Resource/Icon/save_dark.svg</file>
     </qresource>
 </RCC>

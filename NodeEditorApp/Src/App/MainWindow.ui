@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>551</height>
+    <width>824</width>
+    <height>636</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>600</width>
+     <width>824</width>
      <height>23</height>
     </rect>
    </property>
@@ -55,6 +55,7 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionNew"/>
+   <addaction name="actionOpen"/>
    <addaction name="actionSave"/>
    <addaction name="actionSaveAs"/>
    <addaction name="separator"/>
@@ -97,16 +98,28 @@
    </property>
   </action>
   <action name="actionNew">
+   <property name="icon">
+    <iconset>
+     <normaloff>../../Resource/Icon/add_dark.svg</normaloff>../../Resource/Icon/add_dark.svg</iconset>
+   </property>
    <property name="text">
     <string>New</string>
    </property>
   </action>
   <action name="actionSave">
+   <property name="icon">
+    <iconset>
+     <normaloff>../../Resource/Icon/save_dark.svg</normaloff>../../Resource/Icon/save_dark.svg</iconset>
+   </property>
    <property name="text">
     <string>Save</string>
    </property>
   </action>
   <action name="actionSaveAs">
+   <property name="icon">
+    <iconset>
+     <normaloff>../../Resource/Icon/save_as_dark.svg</normaloff>../../Resource/Icon/save_as_dark.svg</iconset>
+   </property>
    <property name="text">
     <string>SaveAs</string>
    </property>
@@ -115,8 +128,21 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../../Resource/Icon/pin_dark.svg</normaloff>../../Resource/Icon/pin_dark.svg</iconset>
+   </property>
    <property name="text">
     <string>ToggleSnapping</string>
+   </property>
+  </action>
+  <action name="actionOpen">
+   <property name="icon">
+    <iconset>
+     <normaloff>../../Resource/Icon/open_dark.svg</normaloff>../../Resource/Icon/open_dark.svg</iconset>
+   </property>
+   <property name="text">
+    <string>actionOpen</string>
    </property>
   </action>
  </widget>

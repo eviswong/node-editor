@@ -29,6 +29,10 @@ MainWindow::MainWindow(QWidget *parent)
 void MainWindow::SetupUi()
 {
 	/* Windows */
+
+	/* Icons */
+	InitializeIcons();
+
 	/* Message window */
 	LoggerWindow* loggerWindow = new LoggerWindow(this);
 	MessageWritter::InstallMessageWriter(loggerWindow);
@@ -65,6 +69,16 @@ void MainWindow::MakeConnections()
 	connect(ui.actionSaveAs, &QAction::triggered, this, &Self::OnSaveAsTriggered);
 	connect(ui.actionToggleSnapping, &QAction::triggered, this, &Self::OnToggleSnapping);
 }
+
+void MainWindow::InitializeIcons()
+{
+	ui.actionNew->setIcon(QIcon(":/Resource/Icon/add_dark.svg"));
+	ui.actionSaveAs->setIcon(QIcon(":/Resource/Icon/save_as_dark.svg"));
+	ui.actionSave->setIcon(QIcon(":/Resource/Icon/save_dark.svg"));
+	ui.actionOpen->setIcon(QIcon(":/Resource/Icon/open_dark.svg"));
+	ui.actionToggleSnapping->setIcon(QIcon(":/Resource/Icon/pin_dark.svg"));
+}
+
 
 MainWindow::~MainWindow()
 {

@@ -26,6 +26,7 @@ private:
 
 	void SetupUi();
 	void MakeConnections();
+	void InitializeIcons();
 
 public:
 	static QWidget* s_mainUi;
