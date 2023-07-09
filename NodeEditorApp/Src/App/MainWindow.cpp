@@ -79,7 +79,6 @@ void MainWindow::InitializeIcons()
 	ui.actionToggleSnapping->setIcon(QIcon(":/Resource/Icon/pin_dark.svg"));
 }
 
-
 MainWindow::~MainWindow()
 {
 

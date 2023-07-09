@@ -102,6 +102,7 @@ void DmGraphicsScene::drawBackground(QPainter* painter, const QRectF& rect)
 	painter->drawLines(m_gridLinesDark);
 
 	/* 绘制坐标轴 */
+#if 0
 	{
 		QPen axisPen(Qt::red);
 		painter->setPen(axisPen);
@@ -113,6 +114,8 @@ void DmGraphicsScene::drawBackground(QPainter* painter, const QRectF& rect)
 		painter->setPen(axisPen);
 		painter->drawLine(0, -m_sceneHeight, 0, m_sceneHeight);
 	}
+#endif
+
 #if 0
 	/* 绘制文字 */
 	QFont f("Consolas", 36);
