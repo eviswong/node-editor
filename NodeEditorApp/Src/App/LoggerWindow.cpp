@@ -18,7 +18,7 @@ void LoggerWindow::MakeConnections()
 {
 
 	connect(ui.clearBtn, &QPushButton::clicked, [this]() {
-		std::list<Message>& msgContainer = GetMessageContainer();
+		MsgContainer& msgContainer = GetMessageContainer();
 		ui.logOutputEdit->clear();
 		msgContainer.clear();
 	});
@@ -43,14 +43,14 @@ void LoggerWindow::Critical(const QString& message) {
 
 void LoggerWindow::WriteToBuffer(const QString& message, Verbosity verbosity)
 {
-	std::list<Message>& msgContainer = GetMessageContainer();
+	MsgContainer& msgContainer = GetMessageContainer();
 
 	msgContainer.emplace_back(verbosity, message);
 }
 
 void LoggerWindow::FlushBuffer()
 {
-	std::list<Message>& msgContainer = GetMessageContainer();
+	MsgContainer& msgContainer = GetMessageContainer();
 
 	std::for_each(msgContainer.begin(), msgContainer.end(),
 		[this](Message& msg)
@@ -111,7 +111,7 @@ void LoggerWindow::OnLogLevelFilterChanged(int index)
 {
 	ui.logOutputEdit->clear();
 
-	std::list<Message>& msgContainer = GetMessageContainer();
+	MsgContainer& msgContainer = GetMessageContainer();
 
 	if (index != 0)
 	{

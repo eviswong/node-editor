@@ -19,9 +19,11 @@ public:
 	void FlushBuffer();
 
 private:
-	static std::list<Message>& GetMessageContainer() 
+	using MsgContainer = std::list<Message>;
+
+	static MsgContainer& GetMessageContainer()
 	{
-		static std::list<Message> s_messageContainer;
+		static MsgContainer s_messageContainer;
 		return s_messageContainer;
 	}
 
