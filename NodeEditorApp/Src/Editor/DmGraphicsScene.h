@@ -13,6 +13,19 @@ public:
 
 	int GetGridSize() const { return m_gridSize; }
 
+	static void DeleteItem(QGraphicsItem* item) 
+	{
+		Q_ASSERT_X(s_scene != nullptr, __FUNCTION__, "s_scene is nullptr");
+		s_scene->removeItem(item);
+		delete item;
+		item = nullptr;
+	}
+
+	static void AddItem(QGraphicsItem* item)
+	{
+		Q_ASSERT_X(s_scene != nullptr, __FUNCTION__, "s_scene is nullptr");
+		s_scene->addItem(item);
+	}
 
 protected:
 	virtual void drawBackground(QPainter* painter, const QRectF& rect) override;
@@ -43,4 +56,6 @@ private:
 	/* Graphics Scene µÄ¿í¶È */
 	int m_sceneWidth;
 	int m_sceneHeight;
+
+	inline static QGraphicsScene* s_scene{nullptr};
 };

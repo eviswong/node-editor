@@ -11,6 +11,7 @@ class QGraphicsScene;
 class QKeyEvent;
 class QWidget;
 class DmGraphicsSocketItem;
+class DmGraphicsEdgeItem;
 
 class DmGraphicsView : public QGraphicsView
 {
@@ -39,4 +40,6 @@ private:
 	ViewportOperationMode m_viewportOperationMode{ Mode_Invalid };
 
 	QPointF m_currentPos;
+
+	DmGraphicsEdgeItem* m_tempEdge {nullptr};
 };

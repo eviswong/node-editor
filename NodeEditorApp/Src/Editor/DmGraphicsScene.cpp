@@ -32,6 +32,8 @@ DmGraphicsScene::DmGraphicsScene(QObject* parent)
 	DmGraphicsNodeItem* item = NodeFactory::GetInstance().Create(NodeType_ValueNode);
 	Super::addItem(item);
 #endif
+	Q_ASSERT_X(s_scene == nullptr, __FUNCTION__, "Graphics scene is existed.");
+	s_scene = this;
 }
 
 void DmGraphicsScene::InitializeGrid()

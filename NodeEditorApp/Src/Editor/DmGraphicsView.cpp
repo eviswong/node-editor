@@ -2,7 +2,9 @@
 #include "DmGraphicsView.h"
 #include "DmGraphicsNode.h"
 #include "DmGraphicsSocketItem.h"
-
+#include "DmGraphicsEdge.h"
+#include "DmGraphicsScene.h"
+#include "App/Logger.h"
 
 DmGraphicsView::DmGraphicsView(QGraphicsScene* scene, QWidget* parent)
 	: QGraphicsView(scene, parent)
@@ -28,8 +30,11 @@ void DmGraphicsView::mousePressEvent(QMouseEvent* event)
 		QGraphicsItem* socketItemUnderCursor = GetSocketItemUnderCursor(mousePos);
 		if (socketItemUnderCursor != nullptr)
 		{
-			qDebug() << "Start Dragging";
+			MessageWritter::Information("Start Dragging");
 			m_viewportOperationMode = Mode_Drag;
+
+			m_tempEdge = new DmGraphicsEdgeItem(static_cast<DmGraphicsSocketItem*>(socketItemUnderCursor));
+			DmGraphicsScene::AddItem(m_tempEdge);
 		}
 
 		Super::mousePressEvent(event);
@@ -51,7 +56,12 @@ void DmGraphicsView::mouseMoveEvent(QMouseEvent* event)
 
 	if (m_viewportOperationMode == Mode_Drag)
 	{
-		qDebug() << "On Dragging";
+		MessageWritter::Information("On Dragging");
+
+		Q_ASSERT_X(m_tempEdge != nullptr, __FUNCTION__, "m_tempEdge is nullptr");
+
+		QPoint scenePos = event->pos();
+		m_tempEdge->UpdateEndPos(scenePos);
 
 		Super::mouseMoveEvent(event);
 		return;
@@ -75,9 +85,12 @@ void DmGraphicsView::mouseReleaseEvent(QMouseEvent* event)
 		DmGraphicsSocketItem* socketUnderCursor = GetSocketItemUnderCursor(mouseScenePos);
 		if (socketUnderCursor == nullptr)
 		{
-			qDebug() << "Stop dragging : No ending.";
+			MessageWritter::Warning( "Stop dragging : No ending.");
 
 			// 删除正在创建的连线
+			Q_ASSERT_X(m_tempEdge != nullptr, __FUNCTION__, "m_tempEdge is nullptr");
+			
+			DmGraphicsScene::DeleteItem(m_tempEdge);
 			
 			// 结束连线过程
 			m_viewportOperationMode = Mode_Invalid;
@@ -87,9 +100,10 @@ void DmGraphicsView::mouseReleaseEvent(QMouseEvent* event)
 
 		}
 
-		// 简历连接关系
-		qDebug() << "Stop draggin : Create ending.";
+		// 建立连接关系
+		MessageWritter::Information("Stop draggin : Create ending.");
 
+		m_tempEdge->SetEndingSocket(socketUnderCursor);
 
 		m_viewportOperationMode = Mode_Invalid;
 		Super::mouseReleaseEvent(event);
