@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
 	}
 #endif
 
-#if 0
+#if 1 // 这个宏展开的结果就是上面的代码段
 	int* ptr = nullptr;
 	__check_pointer(ptr);
 #endif

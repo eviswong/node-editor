@@ -6,6 +6,7 @@
 struct AssertionContext
 {
 	const char* m_exprStr;
+	const char* m_assertFailMsg;
 	const char* m_file;
 	const char* m_function;
 	int         m_line;
@@ -16,8 +17,6 @@ class Assertion
 public:
 	typedef int(*AssertHandler)(std::unique_ptr<AssertionContext>& assertContext);
 
-
-
 	Assertion(const char* file, const char* function, int line)
 	{
 		m_assertionContext = std::make_unique<AssertionContext>();
@@ -27,6 +26,8 @@ public:
 		m_assertionContext->m_line = line;
 	}
 
+	// 为什么用 template ? 
+	// 可以接受任何类型的指针变量。如果直接用 void* 做参数接受，使用者需要先对指针转型 (void*)(ptr)。
 	template <typename T>
 	int CheckPointer(const char* exprStr, T* exprResult)
 	{
