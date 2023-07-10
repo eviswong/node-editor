@@ -3,6 +3,15 @@
 /* 这个变量定义在 main.cpp 模块，跨模块引用变量而不 include header 文件，使用 extern 进行 */
 extern QString s_applicationName;
 
+Assertion::Assertion(const char* file, const char* function, int line)
+{
+	m_assertionContext = std::make_unique<AssertionContext>();
+
+	m_assertionContext->m_file = file;
+	m_assertionContext->m_function = function;
+	m_assertionContext->m_line = line;
+}
+
 int Assertion::CheckPointerInternal(const char* exprStr, void* exprResult)
 {
 	if (exprResult != nullptr)
@@ -24,7 +33,7 @@ int Assertion::CheckPointerInternal(const char* exprStr, void* exprResult)
 	return ret;
 }
 
-int Assertion::MakeSureInternal(const char* exprStr, bool exprResult, const char* reason)
+int Assertion::MakeSure(const char* exprStr, bool exprResult, const char* reason)
 {
 	if (exprResult)
 	{

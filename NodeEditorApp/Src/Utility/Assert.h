@@ -15,14 +15,7 @@ class Assertion
 public:
 	typedef int(*AssertHandler)(std::unique_ptr<AssertionContext>& assertContext);
 
-	Assertion(const char* file, const char* function, int line)
-	{
-		m_assertionContext = std::make_unique<AssertionContext>();
-
-		m_assertionContext->m_file = file;
-		m_assertionContext->m_function = function;
-		m_assertionContext->m_line = line;
-	}
+	Assertion(const char* file, const char* function, int line);
 
 	// 为什么用 template ? 
 	// 可以接受任何类型的指针变量。如果直接用 void* 做参数接受，使用者需要先对指针转型 (void*)(ptr)。
