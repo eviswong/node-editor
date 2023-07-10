@@ -1,37 +1,6 @@
 #pragma once
 #include <type_traits>
 
-template <typename T>
-struct AddReference { using Result = T&; };
-
-template <typename T>
-struct AddReference<T&> { using Result = T&; };
-
-template <typename From, typename To>
-class ImplicitlyConvertible
-{
-private:
-	using ReturnTypeSizeOfTwoBytes = char[2];
-	using ReturnTypeSizeOfOneByte  = char;
-
-	static typename AddReference<From>::Result MakeFrom();
-
-	static char Helper(To);
-	static ReturnTypeSizeOfTwoBytes& Helper(...);
-
-public:
-	static const bool Value = (sizeof(Helper(MakeFrom())) == 1);
-};
-
-template <bool Cond>
-struct EnableIf;
-
-template <>
-struct EnableIf<true>
-{
-	using Result = void;
-};
-
 struct AssertionContext
 {
 	const char* m_exprStr;
@@ -42,7 +11,7 @@ struct AssertionContext
 };
 
 #define __is_implicitly_convertible_to_boolean(type)    \
-    typename EnableIf<ImplicitlyConvertible<type, bool>::Value>::Result* enabler = nullptr
+    typename std::enable_if<std::is_convertible<type, bool>::value>::type* enabler = nullptr
 
 class Assertion
 {
@@ -66,11 +35,10 @@ public:
 		return CheckPointerInternal(exprStr, (void*)(exprResult));
 	}
 
-	// 作为模块提供者，你并不知道对方会给你写的api喂什么参数。对于 MakeSure() 来说， exprResult 可能会被如下使用
+	// 作为模块提供者，你并不知道使用者会给api喂什么参数。对于 MakeSure() 来说， exprResult 可能会被如下使用
 	// MakeSure(1 == 1)  # 接 bool  类型参数
 	// 
-	// const char* str = MakeStringBuffer();
-	// MakeSure(str)      # 接 const char* 类型参数, 用户可能想确保字符串不为空
+
 	// 
 	// std::string res = GetName();
 	// MakeSure(res);     # 接 std::string 类型参数，用户可能想确保字符串不为空
@@ -81,7 +49,7 @@ public:
 	// __is_implicitly_convertible_to_boolean() 用到 SFINAE, 一种类型参数约束技巧。看不懂没关系。
 	//
 	template <typename T>
-	int MakeSure(const char* exprStr, T exprResult, const char* reason, __is_implicitly_convertible_to_boolean(T)) 
+	int MakeSure(const char* exprStr,T exprResult, const char* reason, __is_implicitly_convertible_to_boolean(T))
 	{
 		return MakeSureInternal(exprStr, (bool)exprResult, reason);
 	}

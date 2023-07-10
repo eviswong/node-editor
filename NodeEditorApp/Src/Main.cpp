@@ -9,35 +9,11 @@
 QString s_applicationName = "Node Editor";
 
 
-template <typename T>
-void Helper(T) {
-	qDebug() << "Convertible";
-}
-
-void Helper(...) {
-	qDebug() << "Inconvertible";
-}
-
 int main(int argc, char* argv[])
 {
 	/* 注册 assertion 回调, 此处可以选用 Assertion 模块内置的默认回调 */
 	Assertion::InstallAssertHandler(Assertion::DefaultAssertionHandler);
 
-#if 0 // Assertion 模块的用例
-	int* ptr = nullptr;
-
-	int ret = Assertion(__FILE__, __FUNCTION__, __LINE__).CheckPointer("nullptr", ptr);
-	if (ret == 1)
-	{
-		_CrtDbgBreak();
-		std::abort();
-	}
-#endif
-
-#if 1 // 这个宏展开的结果就是上面的代码段
-	int* ptr = nullptr;
-	__check_pointer(ptr);
-#endif
 
 	Application app(argc, argv);
 
@@ -46,7 +22,7 @@ int main(int argc, char* argv[])
 
 	/* 加载应用程序配置 */
 	Config::GetInstance().LoadConfigurations();
-
+	 
 	/* QSS */
 	bool loadQssSuccessfully = app.LoadStyleSheet();
 	if (!loadQssSuccessfully)
