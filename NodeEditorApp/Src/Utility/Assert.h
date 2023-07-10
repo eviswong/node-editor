@@ -10,9 +10,6 @@ struct AssertionContext
 	int         m_line;
 };
 
-#define __is_implicitly_convertible_to_boolean(type)    \
-    typename std::enable_if<std::is_convertible<type, bool>::value>::type* enabler = nullptr
-
 class Assertion
 {
 public:
@@ -35,28 +32,9 @@ public:
 		return CheckPointerInternal(exprStr, (void*)(exprResult));
 	}
 
-	// 作为模块提供者，你并不知道使用者会给api喂什么参数。对于 MakeSure() 来说， exprResult 可能会被如下使用
-	// MakeSure(1 == 1)  # 接 bool  类型参数
-	// 
-
-	// 
-	// std::string res = GetName();
-	// MakeSure(res);     # 接 std::string 类型参数，用户可能想确保字符串不为空
-	// 
-	// 作为模块提供者，你必须保证 exprResult 可以被转换为 bool 类型。很明显，一个对象并不能直接被强转为 bool 类型。
-	// 也就是说，你需要对这个 模板参数 T 做约束。
-	// 
-	// __is_implicitly_convertible_to_boolean() 用到 SFINAE, 一种类型参数约束技巧。看不懂没关系。
-	//
-	template <typename T>
-	int MakeSure(const char* exprStr,T exprResult, const char* reason, __is_implicitly_convertible_to_boolean(T))
-	{
-		return MakeSureInternal(exprStr, (bool)exprResult, reason);
-	}
-
 	int CheckPointerInternal(const char* exprStr, void* exprResult);
 
-	int MakeSureInternal(const char* exprStr, bool exprResult, const char* reason);
+	int MakeSure(const char* exprStr, bool exprResult, const char* reason);
 
 	static int DefaultAssertionHandler(std::unique_ptr<AssertionContext>& assertContext);
 

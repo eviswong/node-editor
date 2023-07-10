@@ -14,7 +14,6 @@ int main(int argc, char* argv[])
 	/* 注册 assertion 回调, 此处可以选用 Assertion 模块内置的默认回调 */
 	Assertion::InstallAssertHandler(Assertion::DefaultAssertionHandler);
 
-
 	Application app(argc, argv);
 
 	/* 加载应用程序环境 */
