@@ -23,15 +23,12 @@ public:
 		m_endSocket = socketItem;
 	}
 
-	void UpdateStartPos(const QPointF& pos)
-	{
-		m_startPos = pos;
-	}
+	void UpdateStartPos(const QPointF& pos);
 
-	void UpdateEndPos(const QPointF& pos)
-	{
-		m_endPos = pos;
-	}
+	void UpdateEndPos(const QPointF& pos);
+
+protected:
+	virtual void UpdatePath() {};
 
 private:
 	DmGraphicsSocketItem* m_startSocket;
@@ -39,4 +36,10 @@ private:
 
 	QPointF               m_startPos;
 	QPointF               m_endPos;
+};
+
+class DmGraphicsBezireEdgeItem : public DmGraphicsEdgeItem
+{
+protected:
+	virtual void UpdatePath() override;
 };

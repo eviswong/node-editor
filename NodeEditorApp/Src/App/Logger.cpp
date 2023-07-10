@@ -12,6 +12,7 @@ void MessageWritter::InstallMessageWriter(LoggerWindow* loggerWindow)
 
 void MessageWritter::Information(const QString& message)
 {
+	// 判断当前是否存在 logger window。 如果存在，直接输出到窗口，否则装入消息容器。
 	if (s_loggerWindow != nullptr)
 	{
 		s_loggerWindow->Information(message);

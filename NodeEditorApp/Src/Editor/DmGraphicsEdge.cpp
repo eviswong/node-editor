@@ -14,3 +14,24 @@ DmGraphicsEdgeItem::DmGraphicsEdgeItem(DmGraphicsSocketItem* startSocket, DmGrap
 	m_startPos = startSocket->scenePos();
 	m_endPos = m_startPos;
 }
+
+void DmGraphicsEdgeItem::UpdateStartPos(const QPointF& pos)
+{
+	m_startPos = pos;
+	UpdatePath();
+}
+
+void DmGraphicsEdgeItem::UpdateEndPos(const QPointF& pos)
+{
+	m_endPos = pos;
+	UpdatePath();
+}
+
+// DmGraphicsBezireEdgeItem
+// 
+//
+
+void DmGraphicsBezireEdgeItem::UpdatePath()
+{
+
+}
