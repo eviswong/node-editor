@@ -9,6 +9,15 @@
 QString s_applicationName = "Node Editor";
 
 
+template <typename T>
+void Helper(T) {
+	qDebug() << "Convertible";
+}
+
+void Helper(...) {
+	qDebug() << "Inconvertible";
+}
+
 int main(int argc, char* argv[])
 {
 	/* 注册 assertion 回调, 此处可以选用 Assertion 模块内置的默认回调 */

@@ -11,7 +11,6 @@ int Assertion::CheckPointerInternal(const char* exprStr, void* exprResult)
 	}
 
 	assert(s_assertHandler != nullptr && "Assert handler is nullptr");
-
 	m_assertionContext->m_exprStr = exprStr;
 
 	/* 消息格式化 */
@@ -24,6 +23,28 @@ int Assertion::CheckPointerInternal(const char* exprStr, void* exprResult)
 
 	return ret;
 }
+
+int Assertion::MakeSureInternal(const char* exprStr, bool exprResult, const char* reason)
+{
+	if (exprResult)
+	{
+		return 0;
+	}
+
+	assert(s_assertHandler != nullptr && "Assert handler is nullptr");
+	m_assertionContext->m_exprStr = exprStr;
+
+	/* 消息格式化 */
+	static char msgBuf[512] = { 0 };
+	::sprintf(msgBuf, ">>> Assertion failed because of %s.\nExpression: %s\n Function: %s\n", reason, m_assertionContext->m_exprStr, m_assertionContext->m_function);
+
+	m_assertionContext->m_assertFailMsg = msgBuf;
+
+	int ret = s_assertHandler(m_assertionContext);
+
+	return ret;
+}
+
 
 int Assertion::DefaultAssertionHandler(std::unique_ptr<AssertionContext>& assertContext)
 {
