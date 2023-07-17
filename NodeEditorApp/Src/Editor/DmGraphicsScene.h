@@ -1,4 +1,5 @@
 #pragma once
+#include "Utility/Assert.h"
 
 class QGraphicsSceneDragDropEvent;
 class DmGraphicsScene : public QGraphicsScene
@@ -12,20 +13,22 @@ public:
 	DmGraphicsScene(QObject* parent = Q_NULLPTR);
 
 	int GetGridSize() const { return m_gridSize; }
+	
+	static DmGraphicsScene* GetScene() { return static_cast<DmGraphicsScene*>(s_scene); }
 
-	static void DeleteItem(QGraphicsItem* item) 
+	template <typename T>
+	static T* DeleteItem(QGraphicsItem* item)
 	{
-		Q_ASSERT_X(s_scene != nullptr, __FUNCTION__, "s_scene is nullptr");
-		s_scene->removeItem(item);
+		DmGraphicsScene* graphicsScene = GetScene();
+		__check_pointer(graphicsScene);
+
+		graphicsScene->removeItem(item);
+
 		delete item;
-		item = nullptr;
+		return (T*)nullptr;
 	}
 
-	static void AddItem(QGraphicsItem* item)
-	{
-		Q_ASSERT_X(s_scene != nullptr, __FUNCTION__, "s_scene is nullptr");
-		s_scene->addItem(item);
-	}
+	static void AddItem(QGraphicsItem* item);
 
 protected:
 	virtual void drawBackground(QPainter* painter, const QRectF& rect) override;

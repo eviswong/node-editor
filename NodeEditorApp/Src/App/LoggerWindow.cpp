@@ -90,7 +90,6 @@ void LoggerWindow::PutMessage(Verbosity verbosity, const QString& message)
 
 		default:
 		{
-			// assert(false && "Unknown log verbosity");
 			__make_sure(false, "unknown log verbosity");
 		}
 		break;

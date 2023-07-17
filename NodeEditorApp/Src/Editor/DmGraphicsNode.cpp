@@ -4,11 +4,11 @@
 #include "DmGraphicsScene.h"
 #include "App/MainWindow.h"
 #include "DmGraphicsSocketItem.h"
-
+#include "Utility/Assert.h"
 
 NodePainter::NodePainter(DmGraphicsNodeItem* nodeItem)
 {
-	Q_ASSERT_X(nodeItem != nullptr, __FUNCTION__, "Pointer to nodeItem is null");
+	__check_pointer(nodeItem);
 	m_nodeItem = nodeItem;
 
 
@@ -156,6 +156,7 @@ bool DmGraphicsNodeItem::OnSelected()
 
 bool DmGraphicsNodeItem::OnUnSelected()
 {
+	
 	qDebug() << "On unselected";
 	return true;
 }

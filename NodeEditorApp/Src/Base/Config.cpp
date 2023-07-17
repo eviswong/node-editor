@@ -82,13 +82,15 @@ void Config::SaveAllProperties()
  */
 void Config::LoadConfigurations()
 {
+	Config& c = GetInstance();
+
 	QString configFileDir = Environment::GetInstance().GetConfigFileDir();
 	QString configFilePath = configFileDir + g_configFileName;
 
 	QSettings settings(configFilePath, QSettings::IniFormat);
 
 	// 获取当前类的信息（有几个 data member 之类的)
-	const QMetaObject* metaObject = this->metaObject();
+	const QMetaObject* metaObject = c.metaObject();
 
 	/* 获取当前 property 的个数 */
 	int propertyCount = metaObject->propertyCount();
@@ -105,7 +107,7 @@ void Config::LoadConfigurations()
 
 		// 按名字在配置文件中搜索， 找到后，读取，并赋值给 data member
 		QVariant peopertyValue = settings.value(propertyName);
-		property.write(this, peopertyValue);
+		property.write(&c, peopertyValue);
 	}
 
 	settings.endGroup();
@@ -116,13 +118,15 @@ void Config::LoadConfigurations()
  */
 void Config::SaveConfigurations()
 {
+	Config& c = GetInstance();
+
 	QString configFileDir = Environment::GetInstance().GetConfigFileDir();
 	QString configFilePath = configFileDir + g_configFileName;
 
 	QSettings settings(configFilePath, QSettings::IniFormat);
 
 	// QVariant: 啥都能存
-	const QMetaObject* metaObject = this->metaObject();
+	const QMetaObject* metaObject = c.metaObject();
 	int propertyCount = metaObject->propertyCount();
 
 	settings.beginGroup("App");
@@ -131,7 +135,7 @@ void Config::SaveConfigurations()
 	{
 		QMetaProperty property = metaObject->property(i);
 		QString propertyName = property.name();
-		settings.setValue(propertyName, property.read(this));
+		settings.setValue(propertyName, property.read(&c));
 	}
 
 	settings.endGroup();

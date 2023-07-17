@@ -5,6 +5,7 @@
 #include "DmGraphicsEdge.h"
 #include "DmGraphicsScene.h"
 #include "App/Logger.h"
+#include "Utility/Assert.h"
 
 DmGraphicsView::DmGraphicsView(QGraphicsScene* scene, QWidget* parent)
 	: QGraphicsView(scene, parent)
@@ -88,16 +89,15 @@ void DmGraphicsView::mouseReleaseEvent(QMouseEvent* event)
 			MessageWritter::Warning( "Stop dragging : No ending.");
 
 			// 删除正在创建的连线
-			Q_ASSERT_X(m_tempEdge != nullptr, __FUNCTION__, "m_tempEdge is nullptr");
+			__check_pointer(m_tempEdge);
 			
-			DmGraphicsScene::DeleteItem(m_tempEdge);
+			m_tempEdge = DmGraphicsScene::DeleteItem<DmGraphicsEdgeItem>(m_tempEdge);
 			
 			// 结束连线过程
 			m_viewportOperationMode = Mode_Invalid;
 
 			Super::mouseReleaseEvent(event);
 			return;
-
 		}
 
 		// 建立连接关系
@@ -203,23 +203,20 @@ void DmGraphicsView::keyPressEvent(QKeyEvent* event)
 
 void DmGraphicsView::OnDeleteItem(QKeyEvent* event)
 {
-	QGraphicsScene* graphicsScene = Super::scene();
-	assert(graphicsScene);
+	DmGraphicsScene* graphicsScene = DmGraphicsScene::GetScene();
+	__check_pointer(graphicsScene);
 
 	QList<QGraphicsItem*> items = graphicsScene->selectedItems();
-	if (items.size() == 0)
-	{
-		return;
-	}
 
-	for (QGraphicsItem* item : items)
-	{
-		if ((item->type() & NodeType_Node) == NodeType_Node)
+	std::for_each(items.begin(), items.end(), 
+		[](QGraphicsItem* item) 
 		{
-			qDebug() << "Node delete";
-			Super::scene()->removeItem(item);
+			if ((item->type() & NodeType_Node) == NodeType_Node)
+			{
+				item = DmGraphicsScene::DeleteItem<QGraphicsItem>(item);
+			}
 		}
-	}
+	);
 }
 
 

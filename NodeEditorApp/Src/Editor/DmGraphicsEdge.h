@@ -28,18 +28,16 @@ public:
 	void UpdateEndPos(const QPointF& pos);
 
 protected:
-	virtual void UpdatePath() {};
+	virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = Q_NULLPTR) override;
+
+private:
+	void UpdatePath();
 
 private:
 	DmGraphicsSocketItem* m_startSocket;
 	DmGraphicsSocketItem* m_endSocket;
 
-	QPointF               m_startPos;
-	QPointF               m_endPos;
+	/* Styles */
+
 };
 
-class DmGraphicsBezireEdgeItem : public DmGraphicsEdgeItem
-{
-protected:
-	virtual void UpdatePath() override;
-};

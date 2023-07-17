@@ -5,6 +5,9 @@
 #include "App/Application.h"
 #include "App/Logger.h"
 #include "Utility/Assert.h"
+#include "Editor/NodeFactory.h"
+
+#include "Editor/ValueNode.h"
 
 QString s_applicationName = "Node Editor";
 
@@ -17,10 +20,10 @@ int main(int argc, char* argv[])
 	Application app(argc, argv);
 
 	/* 加载应用程序环境 */
-	Environment::GetInstance().Initialize();
+	Environment::Initialize();
 
 	/* 加载应用程序配置 */
-	Config::GetInstance().LoadConfigurations();
+	Config::LoadConfigurations();
 	 
 	/* QSS */
 	bool loadQssSuccessfully = app.LoadStyleSheet();
@@ -32,6 +35,10 @@ int main(int argc, char* argv[])
 	{
 		MessageWritter::Information("Load qss file successfully.");
 	}
+
+	NodeFactory::RegisterNodeInfo(DmGraphicsValueNodeItem::GetNodeMetaStatic());
+
+	NodeFactory::RegisterNodeInfo(DmGraphicsIntegerValueNodeItem::GetNodeMetaStatic());
 
 	/* 创建主窗口 */
 	MainWindow mainWindow;

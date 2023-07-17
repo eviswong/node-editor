@@ -42,25 +42,29 @@ private:
 	inline static AssertHandler s_assertHandler{ nullptr };
 };
 
-#define __check_pointer_impl(pointer)                                                     \
-{                                                                                         \
-	int ret = Assertion(__FILE__, __FUNCTION__, __LINE__).CheckPointer(#pointer, pointer);\
-    if (ret == 1)                                                                         \
-    {                                                                                     \
-    	_CrtDbgBreak();                                                                   \
-    	std::abort();                                                                     \
-    }                                                                                     \
+#define __decl_file() __FILE__
+#define __decl_func() __FUNCTION__
+#define __decl_line() __LINE__
+
+#define __check_pointer_impl(pointer)                                                                 \
+{                                                                                                     \
+	int ret = Assertion(__decl_file(), __decl_func(), __decl_line()).CheckPointer(#pointer, pointer); \
+    if (ret == 1)                                                                                     \
+    {                                                                                                 \
+    	_CrtDbgBreak();                                                                               \
+    	std::abort();                                                                                 \
+    }                                                                                                 \
 }
 
 
-#define __make_sure_impl(condition)                                                                                  \
-{                                                                                                                    \
-	int ret = Assertion(__FILE__, __FUNCTION__, __LINE__).MakeSure(#condition, condition, "unknown log verbosity");  \
-	if (ret == 1)                                                                                                    \
-	{                                                                                                                \
-		_CrtDbgBreak();                                                                                              \
-		std::abort();                                                                                                \
-	}                                                                                                                \
+#define __make_sure_impl(condition, reason)                                                                   \
+{                                                                                                             \
+	int ret = Assertion(__decl_file(), __decl_func(), __decl_line()).MakeSure(#condition, condition, reason); \
+	if (ret == 1)                                                                                             \
+	{                                                                                                         \
+		_CrtDbgBreak();                                                                                       \
+		std::abort();                                                                                         \
+	}                                                                                                         \
 }
 
 

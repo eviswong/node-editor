@@ -19,12 +19,12 @@ public:
 	/*!
 	 * @brief 从配置文件中读出所有配置项的值，加载到当前类中
 	 */
-	void LoadConfigurations();
+	static void LoadConfigurations();
 
 	/*!
 	 * @brief 把当前类中的所有配置项存入配置文件
 	 */
-	void SaveConfigurations();
+	static void SaveConfigurations();
 
 public:
 	Q_PROPERTY(QSize WindowSize MEMBER windowSize)

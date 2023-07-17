@@ -3,8 +3,6 @@
 #include "Base/Config.h"
 #include "DmGraphicsNode.h"
 #include "NodeFactory.h"
-#include <QGraphicsSceneDragDropEvent>
-#include <QMimeData>
 
 DmGraphicsScene::DmGraphicsScene(QObject* parent)
 	: QGraphicsScene(parent)
@@ -32,7 +30,7 @@ DmGraphicsScene::DmGraphicsScene(QObject* parent)
 	DmGraphicsNodeItem* item = NodeFactory::GetInstance().Create(NodeType_ValueNode);
 	Super::addItem(item);
 #endif
-	Q_ASSERT_X(s_scene == nullptr, __FUNCTION__, "Graphics scene is existed.");
+	__make_sure(s_scene == nullptr, "Graphics scene is existed.");
 	s_scene = this;
 }
 
@@ -172,4 +170,12 @@ void DmGraphicsScene::dropEvent(QGraphicsSceneDragDropEvent* event)
 		
 		Super::addItem(item);
 	}
+}
+
+void DmGraphicsScene::AddItem(QGraphicsItem* item)
+{
+	DmGraphicsScene* graphicsScene = GetScene();
+	__check_pointer(graphicsScene);
+
+	graphicsScene->addItem(item);
 }

@@ -1,5 +1,6 @@
 #pragma once
-
+#include <QGraphicsSceneDragDropEvent>
+#include <QMimeData>
 #include <QApplication>
 #include <QWidget>
 #include <QMainWindow>

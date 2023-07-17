@@ -16,12 +16,12 @@ struct NodeMeta
 	typedef DmGraphicsNodeItem* (*NodeDefaultConstructor)();
 
 	const char* className;
-	NodeDefaultConstructor defaultConstructor;
-
 	const char* name;
 	const char* description;
 	const char* iconPath; 
 	NodeType    type;
+
+	NodeDefaultConstructor defaultConstructor;
 };
 
 class NodePainter
@@ -50,8 +50,8 @@ class DmGraphicsNodeItem : public QGraphicsItem
 	friend class NodePainter;
 
 public:
-	static NodeMeta* GetNodeMetaStatic() { return nullptr; }
-	virtual NodeMeta* GetNodeMetaDynamic() { return nullptr; }
+	static const NodeMeta* GetNodeMetaStatic() { return nullptr; }
+	virtual const NodeMeta* GetNodeMetaDynamic() const { return GetNodeMetaStatic(); }
 
 public:
 	explicit DmGraphicsNodeItem(QGraphicsItem* parent = Q_NULLPTR);
@@ -77,6 +77,7 @@ protected:
 	bool m_isHovering{ false };
 
 	QScopedPointer<NodePainter> m_nodePainter;
+
 };
 
 #define CONCAT_IMPL(x, y) x##y
@@ -88,33 +89,10 @@ namespace{\
     NodeRegistry<className> CONCAT(register, __COUNTER__);\
 }
 
-#define __decl_node_info(nodeClassName)\
-public:\
-    static NodeMeta* GetNodeMetaStatic();          \
-    virtual NodeMeta* GetNodeMetaDynamic() override\
-    { return GetNodeMetaStatic();}\
-	static DmGraphicsNodeItem* DefaultConstructor();\
+#define __node_item()                                                                 \
+private:                                                                              \
+    static NodeMeta s_nodeMeta;                                                       \
+public:                                                                               \
+	static const NodeMeta* GetNodeMetaStatic() { return &s_nodeMeta; }                \
+	virtual const NodeMeta* GetNodeMetaDynamic() const { return GetNodeMetaStatic(); }\
 private:
-
-#define __impl_node_info_begin(nodeClassName)\
-REGISTER_NODE_INFO(nodeClassName)\
-DmGraphicsNodeItem* nodeClassName::DefaultConstructor() \
-{\
-    return new nodeClassName(); \
-}\
-NodeMeta* nodeClassName::GetNodeMetaStatic()\
-{\
-	static NodeMeta nodeMeta =\
-	{\
-		#nodeClassName,\
-		DefaultConstructor,
-
-#define __name(name) name
-#define __desc(desc) desc
-#define __icon(path) path
-#define __type(t) t
-
-#define __impl_node_info_end()\
-	};\
-	return &nodeMeta;\
-}

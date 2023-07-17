@@ -9,10 +9,10 @@ class DmGraphicsValueNodeItem : public DmGraphicsNodeItem
 {
 	using Self = DmGraphicsValueNodeItem;
 
-	__decl_node_info(DmGraphicsValueNodeItem);
-
+	__node_item()
 public:
 	explicit DmGraphicsValueNodeItem(QGraphicsItem* parent = Q_NULLPTR);
+
 	virtual int type() const override { return NodeType_ValueNode; }
 
 private:
@@ -28,7 +28,15 @@ private:
 	int m_widgetHeight{ 0 };
 
 	int m_value{ 0 };
+
 };
 
 
+class DmGraphicsIntegerValueNodeItem : public DmGraphicsValueNodeItem
+{
+	using Self = DmGraphicsIntegerValueNodeItem;
 
+	__node_item()
+public:
+	virtual int type() const override { return NodeType_IntegerNode; }
+};

@@ -9,14 +9,16 @@ public:
 		return singleton;
 	}
 
-	void Initialize() {
+	static void Initialize() {
+		Environment& e = GetInstance();
+
 		static const QString configFileFolder = "/Config/";
 
 		static const QString styleSheetPath = "/Qss/Stylesheet.css";
 
-		m_configFileDir = QApplication::applicationDirPath() + configFileFolder;
+		e.m_configFileDir = QApplication::applicationDirPath() + configFileFolder;
 
-		m_styleSheetPath = QApplication::applicationDirPath() + styleSheetPath;
+		e.m_styleSheetPath = QApplication::applicationDirPath() + styleSheetPath;
 	}
 
 	/* Read only property */

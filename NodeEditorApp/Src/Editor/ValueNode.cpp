@@ -3,12 +3,25 @@
 #include "DmGraphicsSocketItem.h"
 #include "NodeFactory.h"
 
+#if 0
 __impl_node_info_begin(DmGraphicsValueNodeItem)
-	__name("Value"),
-	__desc("Use to display dynamic creation of an object"),
-	__icon(":/Resource/Icon/value.svg"),
-	__type(NodeType_ValueNode)
+__name("Value"),
+__desc("Use to display dynamic creation of an object"),
+__icon(":/Resource/Icon/value.svg"),
+__type(NodeType_ValueNode)
 __impl_node_info_end()
+#endif
+
+
+NodeMeta DmGraphicsValueNodeItem::s_nodeMeta = 
+{
+	"DmGraphicsValueNodeItem",
+	"Value",
+	"Use to display dynamic creation of an object",
+	":/Resource/Icon/value.svg",
+	NodeType_ValueNode,
+	[]() -> DmGraphicsNodeItem* {return new DmGraphicsValueNodeItem(); }
+};
 
 DmGraphicsValueNodeItem::DmGraphicsValueNodeItem(QGraphicsItem* parent)
 	: DmGraphicsNodeItem(parent)
@@ -35,8 +48,6 @@ void DmGraphicsValueNodeItem::CalculateNodeRect()
 {
 	QFontMetrics metric(m_captionFont);
 
-
-
 	m_rect.setWidth(m_widgetWidth + m_roundedRectRadius * 2 + 15);
 	m_rect.setHeight(m_widgetHeight + m_roundedRectRadius * 2);
 
@@ -49,23 +60,19 @@ void DmGraphicsValueNodeItem::AdjustSocketPosition()
 	m_socketItem->setPos(socketPos);
 }
 
-#if 0 // 以下为测试代码，注释这段代码，观察效果
+#if 1
 
-class DmGraphicsIntegerValueNodeItem : public DmGraphicsValueNodeItem
+
+
+
+NodeMeta DmGraphicsIntegerValueNodeItem::s_nodeMeta =
 {
-	using Self = DmGraphicsIntegerValueNodeItem;
-
-	__decl_node_info(DmGraphicsIntegerValueNodeItem);
-
-public:
-	 virtual int type() const override { return NodeType_IntegerNode; }
+	"DmGraphicsIntegerValueNodeItem",
+	"Integer",
+	"Use to test node registry.",
+	":/Resource/Icon/value.svg",
+	NodeType_IntegerNode,
+	[]() -> DmGraphicsNodeItem* {return new DmGraphicsIntegerValueNodeItem(); }
 };
-
-__impl_node_info_begin(DmGraphicsIntegerValueNodeItem)
-	__name("Integer"),
-	__desc("Test DSL"),
-	__icon(":/Resource/Icon/value.svg"),
-	__type(NodeType_IntegerNode)
-__impl_node_info_end()
 
 #endif

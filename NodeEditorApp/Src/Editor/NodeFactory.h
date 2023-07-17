@@ -14,20 +14,21 @@ public:
 
 	DmGraphicsNodeItem* Create(NodeType nodeType);
 
-	void RegisterNodeInfo(NodeMeta* nodeInfo)
+	static void RegisterNodeInfo(const NodeMeta* nodeInfo)
 	{
 		// Check exists
+		NodeFactory& n = GetInstance();
 
-		m_nodeMeta.push_back(nodeInfo);
+		n.m_nodeMeta.push_back(nodeInfo);
 	}
 
-	const std::list<NodeMeta*>& GetNodesMeta() const 
+	const std::list<const NodeMeta*>& GetNodesMeta() const 
 	{
 		return m_nodeMeta;
 	}
 
 private:
-	std::list<NodeMeta*> m_nodeMeta;
+	std::list<const NodeMeta*> m_nodeMeta;
 };
 
 template <typename NodeClassT>
@@ -35,7 +36,7 @@ struct NodeRegistry
 {
 	NodeRegistry() 
 	{
-		NodeMeta* nodeMeta = NodeClassT::GetNodeMetaStatic();
+		NodeMeta* nodeMeta = NodeClassT::GetNodeMeta();
 
 		NodeFactory::GetInstance().RegisterNodeInfo(nodeMeta);
 	}
